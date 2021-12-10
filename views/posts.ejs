@@ -24,6 +24,7 @@
                     <%= post.body %>
                 </p>
             </a>
+            <p id="counter" onclick="likeClick()">Like: 0</p>
             <% }) %>
             <% } else { %>
             <p>You did not post anything...</p>
@@ -31,5 +32,10 @@
         </div>
         <%- include('./partials/footer.ejs') %>
     </main>
+<script>
+    function likeClick() {
+      document.getElementById("counter").textContent = "Like: 1";
+    }
+</script>
 </body>
 </html>
