@@ -73,13 +73,45 @@ try {
 const post = req.body;
 console.log(post);
 const newpost = await pool.query(
-"INSERT INTO nodetable(title, body, urllink) values ($1, $2, $3)RETURNING*", [post.title, post.body, post.urllink]
+"INSERT INTO nodetable(title, body, urllink, likes) values ($1, $2, $3, $4)RETURNING*", [post.title, post.body, post.urllink, 0]
 );
 res.redirect('posts');
 } catch (err) {
 console.error(err.message)
 }
 });
+
+app.put('/posts/:id', async(req, res) => {
+    try {
+    console.log("try");
+    const { id } = req.params;
+    const posts = await pool.query(
+        "SELECT * FROM nodetable WHERE id = $1", [id]
+        );
+    post = posts.rows[0];
+    var like = parseInt(post.likes)+1;
+    console.log("update request has arrived");
+    const updatepost = await pool.query(
+    "UPDATE nodetable SET likes=$2 WHERE id =$1", [id, like]
+    );
+    res.redirect('posts');
+    } catch (err) {
+    console.error(err.message);
+    }
+   });
+// app.put('/posts/:id', async(req, res) => {
+//     try {
+//     const { id } = req.params;
+//     const post = req.body;
+//     console.log("update request has arrived");
+//     const updatepost = await pool.query(
+//     "UPDATE nodetable SET (title, body, urllink, likes) = ($2, $3, $4, $5) WHERE id =$1", [id, post.title, post.body, post.urllink, id]
+//     );
+//     res.json(post);
+//     } catch (err) {
+//     console.error(err.message);
+//     }
+//    });
 app.get('/create', (req, res) => {
 res.render('create');
 });

@@ -7,33 +7,31 @@
  <title>Single Post</title>
 </head>
 <body>
-<header>
- <h1>Single post page</h1>
- <%- include('./partials/navbar.ejs') %>
- </header>
- <main>
- <div class="singlepost">
- <h2>
- <%= posts.title %>
- </h2>
- <div class="content">
- <p>
- <%= posts.body %>
- </p>
- </div>
- <a class="delete" data-del="<%= posts.id %>">Delete</a>
- </div>    
- </main>
-
- <script>
- const delreq = document.querySelector('a.delete');
- delreq.addEventListener('click', (e) => {
- const endpoint = `/posts/${delreq.dataset.del}`;
- fetch(endpoint, {
- method: 'DELETE',
- }).then(window.location.href = '/posts')
- });
- </script>
- <%- include('./partials/footer.ejs') %>
+    <header>
+        <h1>Single post page</h1>
+        <%- include('./partials/navbar.ejs') %>
+    </header>
+    <main>
+        <div class="singlepost">
+            <h3 class="title">
+                <%= posts.title %>
+            </h3>
+            <img src="<%= posts.urllink %>" alt="", width="100%">
+            <p class="body">
+                <%= posts.body %>
+            </p>
+            <a class="delete" data-del="<%= posts.id %>">Delete</a>
+        </div>    
+    </main>
+    <script>
+    const delreq = document.querySelector('a.delete');
+    delreq.addEventListener('click', (e) => {
+    const endpoint = `/posts/${delreq.dataset.del}`;
+    fetch(endpoint, {
+    method: 'DELETE',
+    }).then(window.location.href = '/posts')
+    });
+    </script>
+    <%- include('./partials/footer.ejs') %>
 </body>
 </html>

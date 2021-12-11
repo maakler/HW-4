@@ -20,11 +20,13 @@
                 <h3 class="title">
                     <%= post.title %>
                 </h3>
+                <img src="<%= post.urllink %>" alt="", height="100%", width="100%">
                 <p class="body">
                     <%= post.body %>
                 </p>
             </a>
-            <p id="counter" onclick="likeClick()">Like: 0</p>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Facebook_Like_button.svg/1024px-Facebook_Like_button.svg.png" alt="like", height="30px", width="30px">
+            <a class="putter", data-id="<%= post.id %>"><%= post.likes %></a>
             <% }) %>
             <% } else { %>
             <p>You did not post anything...</p>
@@ -32,10 +34,15 @@
         </div>
         <%- include('./partials/footer.ejs') %>
     </main>
-<script>
-    function likeClick() {
-      document.getElementById("counter").textContent = "Like: 1";
-    }
-</script>
+    <script>
+        const likereq = document.querySelector('a.putter');
+        var id = likereq.dataset.id
+        likereq.addEventListener('click', (e) => {
+        const endpoint = `/posts/${id}`;
+        fetch(endpoint, {
+        method: 'PUT',
+        }).then(window.location.href = '/posts')
+        });
+    </script>
 </body>
 </html>
